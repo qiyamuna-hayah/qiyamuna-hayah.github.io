@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>قيمنا حياة</title>
+<meta name="description" content="مبادرة قيمنا حياة · مشروع ترسيخ القيم وتعزيز الهوية الوطنية · الثانوية الثانية والخمسون بجدة">
+<meta name="theme-color" content="#2f6f71">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@500;600;700&display=swap" media="print" onload="this.media='all'">
+<style>
+:root{
+  --paper:#faf7f3; --card:#ffffff; --ink:#26232e; --muted:#6c6672; --line:#e6dfd8;
+  --teal:#2f6f71; --teal-soft:#e4f0ef; --ok:#2e7d4f; --ok-soft:#e5f3ea; --warn:#a8641b; --warn-soft:#fbf0e1; --bad:#b23a48;
+  --g:#2f6f71; --g-soft:#e4f0ef;
+  --f-head:"Readex Pro","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --f-body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  --f-print:"Amiri","Traditional Arabic","Times New Roman",serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.75;-webkit-tap-highlight-color:transparent}
+h1,h2,h3{font-family:var(--f-head);line-height:1.4;margin:0;text-wrap:balance}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:760px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-right)) 60px max(16px,env(safe-area-inset-left));display:flex;flex-direction:column;gap:18px}
+.top{display:flex;align-items:center;gap:12px}
+.top img{width:64px;height:auto}
+.top .t1{font-size:.82rem;color:var(--muted)}
+.top h1{font-size:1.5rem;color:var(--teal)}
+.hint{color:var(--muted);font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.gbtn{all:unset;cursor:pointer;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:6px;transition:transform .12s,border-color .12s}
+.gbtn:hover,.gbtn:focus-visible{transform:translateY(-2px);border-color:var(--g)}
+.gbtn .nm{font-family:var(--f-head);font-weight:700;font-size:1.25rem;color:var(--g)}
+.gbtn .em{font-size:1.8rem;line-height:1}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.8rem;padding:1px 10px;border-radius:99px;background:var(--g-soft);color:var(--g);font-weight:600;white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.wait{background:var(--warn-soft);color:var(--warn)}
+.back{all:unset;cursor:pointer;color:var(--teal);font-weight:600;align-self:flex-start}
+.ghead{display:flex;align-items:center;gap:12px;background:var(--g-soft);border-radius:16px;padding:14px 16px}
+.ghead .em{font-size:2.2rem}
+.ghead h2{color:var(--g);font-size:1.45rem}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step .n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--g);color:#fff;display:grid;place-items:center;font-family:var(--f-head);font-weight:700}
+.step .b{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.step h3{font-size:1.12rem}
+.btn{all:unset;cursor:pointer;text-align:center;background:var(--g);color:#fff;font-weight:700;padding:11px 20px;border-radius:12px;font-family:var(--f-head)}
+.btn:focus-visible{outline:3px solid #f0b54a;outline-offset:2px}
+.btn.light{background:var(--card);color:var(--g);border:2px solid var(--g);padding:9px 18px}
+.btn.big{font-size:1.1rem;padding:14px 24px}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.names{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.nbtn{all:unset;cursor:pointer;border:2px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:6px;background:var(--card)}
+.nbtn:hover,.nbtn:focus-visible{border-color:var(--g)}
+.nbtn.done{background:var(--ok-soft);border-color:#bfe0cb;cursor:default}
+.nbtn .s{font-size:.78rem;color:var(--muted)}
+.nbtn.done .s{color:var(--ok);font-weight:600}
+.okbox{background:var(--ok-soft);color:var(--ok);border-radius:12px;padding:10px 14px;font-weight:600}
+.warnbox{background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:10px 14px}
+.badbox{background:#fbe7ea;color:var(--bad);border-radius:12px;padding:10px 14px;font-weight:600}
+
+/* forms */
+form{display:flex;flex-direction:column;gap:16px}
+.q{display:flex;flex-direction:column;gap:6px}
+.q > label,.q > .lb{font-weight:700;font-family:var(--f-head);font-size:1rem}
+.q small{color:var(--muted);font-weight:400;font-family:var(--f-body)}
+input[type=text],select,textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;font-size:16px}
+textarea{min-height:96px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-shadow:0 0 0 3px var(--g-soft)}
+.radios{display:flex;flex-wrap:wrap;gap:8px}
+.radios label{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer;background:#fff;font-weight:500}
+.radios input{accent-color:var(--g);width:18px;height:18px}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;align-items:center}
+.roles span{font-weight:600}
+.err{color:var(--bad);font-size:.9rem;font-weight:600}
+.photo{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.photo img{max-width:100%;max-height:320px;border-radius:10px;border:1px solid var(--line)}
+.pledge-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.pledge-list li{background:var(--g-soft);border-radius:10px;padding:8px 12px}
+.pledge-list b{color:var(--g)}
+.sigbox{border:2px dashed var(--g);border-radius:12px;background:#fff;touch-action:none;width:100%;height:170px;display:block}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:600}
+.check input{width:22px;height:22px;accent-color:var(--g);margin-top:4px;flex:none}
+.foot{text-align:center;color:var(--muted);font-size:.8rem}
+.toast{position:fixed;inset-inline:16px;bottom:calc(16px + env(safe-area-inset-bottom));max-width:520px;margin:0 auto;background:var(--ink);color:#fff;border-radius:12px;padding:12px 16px;text-align:center;z-index:9;font-weight:600}
+
+/* teacher */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:.92rem;min-width:560px}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:right;vertical-align:middle}
+thead th{background:var(--teal-soft);color:var(--teal);font-family:var(--f-head);font-weight:600}
+tr:last-child td{border-bottom:none}
+
+/* print sheets */
+#print{display:none;overflow-x:hidden;padding-top:12px}
+.sheet{background:#fff;color:#000;font-family:var(--f-print);font-size:13pt;line-height:1.55;width:min(210mm,100%);min-height:297mm;margin:0 auto 16px;padding:12mm 13mm;box-shadow:0 1px 6px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:7px}
+.sheet .hd{display:grid;grid-template-columns:1fr auto;align-items:start}
+.sheet .hd img{width:120px}
+.sheet .hc{text-align:center;display:flex;flex-direction:column;gap:0}
+.sheet .hc .s1{font-weight:700}
+.sheet h2{font-family:var(--f-print);font-size:20pt;text-align:center;margin:2px 0}
+.sheet .meta{display:flex;flex-wrap:wrap;gap:4px 22px}
+.sheet table{min-width:0;font-size:12pt;border:1px solid #626762}
+.sheet th,.sheet td{border:1px solid #626762;padding:5px 8px;vertical-align:top}
+.sheet thead th,.sheet th.side{background:#ddece7;color:#000;font-family:var(--f-print);font-weight:700}
+.sheet th.side{width:30%;background:#f4f7f5}
+.sheet .pre{white-space:pre-wrap}
+.sheet .proto{max-width:100%;max-height:95mm;display:block;margin:4px auto}
+.sheet .sig{height:42px;max-width:100%}
+.sheet .sign{margin-top:auto;display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:11.5pt}
+.sheet .stamp{font-size:10.5pt;color:#444}
+.sheet .bar{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.printbar{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff;padding:10px max(16px,env(safe-area-inset-right));display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
+.printbar .btn{background:#fff;color:var(--ink)}
+.printbar .btn.light{background:transparent;color:#fff;border-color:#fff}
+@media print{
+  @page{size:A4;margin:0}
+  body{background:#fff}
+  #app,.printbar,.toast{display:none!important}
+  #print{display:block!important}
+  .sheet{box-shadow:none;margin:0;break-after:page;width:auto;min-height:296mm}
+  .sheet:last-child{break-after:auto}
+}
+@media (max-width:520px){
+  .roles{grid-template-columns:1fr}
+  .roles span{margin-top:6px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app" class="wrap"><p class="hint">جارٍ التحميل…</p></div>
+<div id="print"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+"use strict";
+/* ============ الإعدادات ============ */
+const FIREBASE = {
+  apiKey: "AIzaSyAip_WmEtpqt2IUXv_xEaDt7zTQGaQc8xo",
+  authDomain: "learning-960eb.firebaseapp.com",
+  projectId: "learning-960eb",
+  appId: "1:954048536812:web:e374a827cd974085ba85c9"
+};
+const CLS = "c2-7";
+const SCHOOL = "الثانوية الثانية والخمسون بجدة";
+const TEACHER = "أ. فوزية";
+const COORD = "منسقة المبادرة / وسام عطية الله اللبدي";
+const PRINCIPAL = "مديرة المدرسة / هند عبدالعزيز الحارثي";
+const ROLES = ["القائدة","الكاتبة","معزّزة القيم","المراقبة","المصممة","الباحثة"];
+const GROUPS = [
+  {id:"g1", n:"١", name:"أزهار الفل", em:"🌼", c:"#b8456f", s:"#fbeaf1", m:[["s01","حلا خالد"],["s02","شهد عبدالرحمن"],["s03","ملك ايمن"],["s04","غيد محسن"],["s05","شهد ناظم"],["s06","سلسبيل عمر"]]},
+  {id:"g2", n:"٢", name:"اللافندر", em:"💜", c:"#6f55a3", s:"#efeaf8", m:[["s07","مها احمد"],["s08","راما هشام"],["s09","هلا عمر"],["s10","لين اشرف"],["s11","نورة محمد"],["s12","فجر منصور"]]},
+  {id:"g3", n:"٣", name:"النرجس", em:"🌻", c:"#9a7417", s:"#fbf3dc", m:[["s13","فرح عبدالله"],["s14","غزل صالح"],["s15","ريناس بركه"],["s16","ملاك علي"],["s17","ريتال سامي"],["s18","تاله محمد"]]},
+  {id:"g4", n:"٤", name:"التوليب", em:"🌷", c:"#b5435e", s:"#fcebef", m:[["s19","سوسن ايمن"],["s20","رزان منصور"],["s21","ام كلثوم ايمن"],["s22","همس وليد"],["s23","ساره سامي"],["s24","نور عثمان"]]},
+  {id:"g5", n:"٥", name:"الجوري", em:"🌹", c:"#97304b", s:"#f9e6eb", m:[["s25","راما جزا"],["s26","روين خالد"],["s27","موده ياسر"],["s28","رغد حسام"],["s29","ريناد عبدالله"],["s30","ميار حمزه"]]}
+];
+const VALUES = [
+  ["التعاون","أتعاون مع زميلاتي، وأساعدهن، ونسعى معًا لتحقيق الأهداف المشتركة للمشروع."],
+  ["الأمانة","أتحلى بالأمانة في أقوالي وأفعالي، وأنجز مهامي بإتقان، وأوثّق المصادر، وأتجنب الغش والنسخ والانتحال."],
+  ["العزيمة","أجتهد في إنجاز مهامي، وأواصل العمل رغم التحديات، وأحرص على التقدم وفق الخطة دون تقاعس."],
+  ["الانضباط","ألتزم بالأنظمة والتعليمات، وأحافظ على النظام، وأحضر الاجتماعات، وأسلّم مهامي في مواعيدها."]
+];
+
+/* ============ أدوات ============ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const G = id => GROUPS.find(g => g.id === id);
+const studentName = sid => { for (const g of GROUPS) for (const [id, nm] of g.m) if (id === sid) return nm; return ""; };
+const fmtDate = d => { try { return new Intl.DateTimeFormat("ar-SA-u-ca-islamic-umalqura",{day:"numeric",month:"long",year:"numeric"}).format(d); } catch(e){ return d.toLocaleDateString("ar"); } };
+const fmtTime = d => d.toLocaleTimeString("ar-SA",{hour:"numeric",minute:"2-digit"});
+const ar = n => Number(n).toLocaleString("ar-SA");
+const when = d => d ? fmtDate(d) + " · " + fmtTime(d) : "";
+function toast(msg, ms=2600){ const t=document.createElement("div"); t.className="toast"; t.setAttribute("role","status"); t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(), ms); }
+function timeout(p, ms, label){ return Promise.race([p, new Promise((_,rej)=>setTimeout(()=>rej(Object.assign(new Error(label),{code:"timeout"})), ms))]); }
+
+/* ============ البيانات ============ */
+const MOCK = /[?&]mock\b/.test(location.search);
+const state = { plans: [], pledges: {}, ready: false, error: "" };
+let db = null;
+
+function toDate(v){ if(!v) return null; if (v.toDate) return v.toDate(); if (typeof v === "number") return new Date(v); return null; }
+
+function startData(){
+  if (MOCK) {
+    let m; try { m = JSON.parse(localStorage.getItem("qiyam_mock")||"null"); } catch(e){}
+    m = m || {plans:[], pledges:{}};
+    state.plans = m.plans.map(p => ({...p, at: new Date(p.at)}));
+    state.pledges = Object.fromEntries(Object.entries(m.pledges).map(([k,v]) => [k, {...v, at: new Date(v.at)}]));
+    state.ready = true; render(); return;
+  }
+  try {
+    firebase.initializeApp(FIREBASE);
+    db = firebase.firestore();
+  } catch(e){ state.error = "تعذّر الاتصال. تأكدي من الإنترنت ثم حدّثي الصفحة."; state.ready = true; render(); return; }
+  const root = db.collection("qiyam").doc(CLS);
+  const slow = setTimeout(() => { if(!state.ready){ state.error = "الاتصال بطيء… انتظري قليلًا أو حدّثي الصفحة."; render(); } }, 12000);
+  let got = 0; const done = () => { if (++got >= 2) { clearTimeout(slow); state.ready = true; state.error = ""; render(); } };
+  root.collection("plans").onSnapshot(snap => {
+    state.plans = snap.docs.map(d => { const x = d.data({serverTimestamps:"estimate"}); return {...x, id:d.id, at: toDate(x.at)}; });
+    if (state.ready) render(); else done();
+  }, err => { clearTimeout(slow); state.error = errText(err); state.ready = true; render(); });
+  root.collection("pledges").onSnapshot(snap => {
+    const o = {}; snap.docs.forEach(d => { const x = d.data({serverTimestamps:"estimate"}); o[d.id] = {...x, at: toDate(x.at)}; });
+    state.pledges = o;
+    if (state.ready) render(); else done();
+  }, err => { clearTimeout(slow); state.error = errText(err); state.ready = true; render(); });
+}
+function errText(e){
+  if (e && e.code === "permission-denied") return "الموقع لم يُفعَّل بعد (صلاحيات قاعدة البيانات). أبلغي المسؤول عن الموقع.";
+  if (e && e.code === "timeout") return "لم يكتمل الحفظ: الإنترنت ضعيف. حاولي مرة ثانية.";
+  return "حدث خطأ في الاتصال. حاولي مرة ثانية.";
+}
+function latestPlan(gid){ return state.plans.filter(p => p.g === gid).sort((a,b) => (b.at||0) - (a.at||0))[0] || null; }
+
+async function savePlan(data){
+  if (MOCK) {
+    const m = JSON.parse(localStorage.getItem("qiyam_mock")||'{"plans":[],"pledges":{}}');
+    m.plans.push({...data, id:"m"+Date.now(), at: Date.now()}); localStorage.setItem("qiyam_mock", JSON.stringify(m));
+    startData(); return;
+  }
+  const ref = db.collection("qiyam").doc(CLS).collection("plans").doc();
+  await timeout(ref.set({...data, at: firebase.firestore.FieldValue.serverTimestamp()}), 20000, "timeout");
+}
+async function savePledge(sid, data){
+  if (MOCK) {
+    const m = JSON.parse(localStorage.getItem("qiyam_mock")||'{"plans":[],"pledges":{}}');
+    m.pledges[sid] = {...data, at: Date.now()}; localStorage.setItem("qiyam_mock", JSON.stringify(m));
+    startData(); return;
+  }
+  const ref = db.collection("qiyam").doc(CLS).collection("pledges").doc(sid);
+  await timeout(ref.set({...data, at: firebase.firestore.FieldValue.serverTimestamp()}), 20000, "timeout");
+}
+
+/* ============ الصفحات ============ */
+function route(){ return (location.hash || "#").slice(1).split("/"); }
+window.addEventListener("hashchange", () => { formOpen = false; render(); window.scrollTo(0,0); });
+
+function setGroupColors(g){
+  const r = document.documentElement.style;
+  if (g){ r.setProperty("--g", g.c); r.setProperty("--g-soft", g.s); }
+  else { r.setProperty("--g", "#2f6f71"); r.setProperty("--g-soft", "#e4f0ef"); }
+}
+
+let formOpen = false;
+function render(){
+  if (formOpen) return; // لا نمسح ما تكتبه الطالبة
+  const [a, b, c] = route();
+  const app = $("#app");
+  if (a === "teacher") { setGroupColors(null); app.innerHTML = teacherView(); bindTeacher(); return; }
+  if (a === "print") { setGroupColors(null); app.innerHTML = ""; showPrint(b || "all"); return; }
+  hidePrint();
+  const g = G(a);
+  setGroupColors(g);
+  if (g && b === "plan") { app.innerHTML = planForm(g); bindPlan(g); formOpen = true; return; }
+  if (g && b === "pledge" && c) { app.innerHTML = pledgeForm(g, c); bindPledge(g, c); formOpen = !state.pledges[c]; return; }
+  app.innerHTML = g ? groupView(g) : homeView();
+}
+
+function header(){
+  return `<div class="top"><img src="logo.png" alt="شعار وزارة التعليم"><div><div class="t1">${SCHOOL} · مشروع ترسيخ القيم وتعزيز الهوية الوطنية</div><h1>مبادرة قيمنا حياة</h1><div class="t1">الصف الثاني الثانوي · فصل ٧ · المعلمة ${TEACHER}</div></div></div>`;
+}
+function statusBox(){
+  if (state.error) return `<div class="badbox" role="alert">${esc(state.error)}</div>`;
+  if (!state.ready) return `<p class="hint">جارٍ التحميل…</p>`;
+  return "";
+}
+
+function homeView(){
+  const cards = GROUPS.map(g => {
+    const p = latestPlan(g.id); const n = g.m.filter(([sid]) => state.pledges[sid]).length;
+    return `<button class="gbtn" style="--g:${g.c};--g-soft:${g.s}" onclick="location.hash='${g.id}'">
+      <span class="em" aria-hidden="true">${g.em}</span><span class="nm">مجموعة ${g.name}</span>
+      <span class="chips"><span class="chip ${p?"ok":"wait"}">${p?"الخطة ✓":"الخطة لم تُرسل"}</span><span class="chip ${n===g.m.length?"ok":"wait"}">التعهد ${ar(n)} من ${ar(g.m.length)}</span></span>
+    </button>`; }).join("");
+  return `${header()}${statusBox()}
+  <div class="card"><h2 style="font-size:1.2rem">أهلًا بكِ 🌷</h2><p>اضغطي على <b>مجموعتك</b> لتبدئي.</p></div>
+  <div class="groups">${cards}</div>
+  <p class="foot">مبادرة قيمنا حياة · ${SCHOOL}</p>`;
+}
+
+function groupView(g){
+  const p = latestPlan(g.id);
+  const names = g.m.map(([sid, nm]) => {
+    const s = state.pledges[sid];
+    return s ? `<div class="nbtn done"><span>${esc(nm)}</span><span class="s">وقّعت ✓</span></div>`
+             : `<button class="nbtn" onclick="location.hash='${g.id}/pledge/${sid}'"><span>${esc(nm)}</span><span class="s">اضغطي للتوقيع</span></button>`;
+  }).join("");
+  const n = g.m.filter(([sid]) => state.pledges[sid]).length;
+  return `<button class="back" onclick="location.hash=''">→ رجوع للمجموعات</button>
+  <div class="ghead"><span class="em" aria-hidden="true">${g.em}</span><div><h2>مجموعة ${g.name}</h2><div class="hint">${g.m.length} طالبات</div></div></div>
+  ${statusBox()}
+  <div class="card"><div class="step"><span class="n">١</span><div class="b">
+    <h3>خطة المجموعة والنموذج الأولي</h3>
+    <p class="hint">اجتمعن واتفقن على المشروع، ثم <b>القائدة</b> تعبّي الخطة.</p>
+    ${p ? `<div class="okbox">تم إرسال الخطة ✓ مشروع: «${esc(p.project)}» · ${when(p.at)}</div>
+           <button class="btn light" onclick="location.hash='${g.id}/plan'">تعديل الخطة</button>`
+        : `<button class="btn big" onclick="location.hash='${g.id}/plan'">ابدئي تعبئة الخطة</button>`}
+  </div></div></div>
+  <div class="card"><div class="step"><span class="n">٢</span><div class="b">
+    <h3>بطاقة تعهد القيم</h3>
+    <p class="hint">كل طالبة تضغط على <b>اسمها</b> وتوقّع بنفسها. (${ar(n)} من ${ar(g.m.length)})</p>
+    <div class="names">${names}</div>
+  </div></div></div>`;
+}
+
+/* ---- خطة المجموعة ---- */
+function planForm(g){
+  const p = latestPlan(g.id) || {};
+  const roles = p.roles || {};
+  const v = k => esc(p[k] || "");
+  const radio = (name, opts) => `<div class="radios">${opts.map(o => `<label><input type="radio" name="${name}" value="${esc(o)}" ${p[name]===o?"checked":""}> ${esc(o)}</label>`).join("")}</div>`;
+  return `<button class="back" type="button" onclick="leaveForm('${g.id}')">→ رجوع</button>
+  <div class="ghead"><span class="em" aria-hidden="true">${g.em}</span><div><h2>خطة مجموعة ${g.name}</h2><div class="hint">${p.project ? "تعديل الخطة: غيّري ما تريدين ثم اضغطي إرسال" : "تعبّيها القائدة بعد الاتفاق مع المجموعة"}</div></div></div>
+  <form class="card" id="planF" novalidate>
+    <div class="q"><label for="f_leader">اسم القائدة</label><select id="f_leader"><option value="">اختاري…</option>${g.m.map(([sid,nm])=>`<option ${p.leader===nm?"selected":""}>${esc(nm)}</option>`).join("")}</select></div>
+    <div class="q"><label for="f_project">اسم المشروع</label><input type="text" id="f_project" maxlength="120" value="${v("project")}" placeholder="مثال: درعك في العالم الرقمي"></div>
+    <div class="q"><span class="lb">المجال</span>${radio("domain",["الوعي الإعلامي","التفاعل الرقمي"])}</div>
+    <div class="q"><span class="lb">نوع المشروع</span>${radio("kind",["فعالية (حملة، ندوة، ورشة…)","منتج (بودكاست، إنفوجرافيك، فيديو، دراسة…)"])}</div>
+    <div class="q"><span class="lb">دور كل طالبة</span><div class="roles">${g.m.map(([sid,nm])=>`<span>${esc(nm)}</span><select data-role="${sid}" aria-label="دور ${esc(nm)}"><option value="">اختاري الدور…</option>${ROLES.map(r=>`<option ${roles[sid]===r?"selected":""}>${r}</option>`).join("")}</select>`).join("")}</div></div>
+    <div class="q"><label for="f_why">لماذا اخترتن هذا المشروع؟ وما أهميته؟</label><textarea id="f_why" maxlength="2000">${v("why")}</textarea></div>
+    <div class="q"><label for="f_goals">أهداف المشروع <small>(٣ أهداف على الأقل)</small></label><textarea id="f_goals" maxlength="2000" placeholder="١- &#10;٢- &#10;٣- ">${v("goals")}</textarea></div>
+    <div class="q"><label for="f_audience">الجمهور المستهدف <small>(اختياري)</small></label><input type="text" id="f_audience" maxlength="200" value="${v("audience")}" placeholder="مثال: طالبات المدرسة"></div>
+    <div class="q"><label for="f_values">كيف ستظهر قيم التعاون والأمانة والعزيمة والانضباط في عملكن؟</label><textarea id="f_values" maxlength="2000">${v("values")}</textarea></div>
+    <div class="q"><label for="f_steps">خطوات العمل <small>(ماذا ستفعلن، ومن المسؤولة، ومتى)</small></label><textarea id="f_steps" maxlength="3000">${v("steps")}</textarea></div>
+    <div class="q"><label for="f_proto">النموذج الأولي <small>(أول شكل للمشروع: رسمة، غلاف، فكرة أول حلقة…)</small></label><textarea id="f_proto" maxlength="2000">${v("proto")}</textarea></div>
+    <div class="q photo"><span class="lb">صورة النموذج الأولي <small>(اختياري)</small></span>
+      <label class="btn light" for="f_img">📷 صوّري أو اختاري صورة</label><input type="file" id="f_img" accept="image/*" hidden>
+      <img id="f_prev" alt="صورة النموذج الأولي" ${p.img ? `src="${p.img}"` : "hidden"}>
+    </div>
+    <p class="err" id="f_err" role="alert" hidden></p>
+    <button class="btn big" id="f_send" type="submit">إرسال الخطة</button>
+  </form>`;
+}
+let planImg = null;
+function bindPlan(g){
+  const old = latestPlan(g.id); planImg = old && old.img ? old.img : "";
+  $("#f_img").addEventListener("change", async e => {
+    const f = e.target.files[0]; if (!f) return;
+    try { planImg = await shrinkImage(f); const pv = $("#f_prev"); pv.src = planImg; pv.hidden = false; }
+    catch(err){ toast("تعذّر قراءة الصورة، جرّبي صورة أخرى"); }
+  });
+  $("#planF").addEventListener("submit", async e => {
+    e.preventDefault();
+    const val = id => $("#"+id).value.trim();
+    const pick = n => (document.querySelector(`input[name="${n}"]:checked`)||{}).value || "";
+    const roles = {}; document.querySelectorAll("[data-role]").forEach(s => { if (s.value) roles[s.dataset.role] = s.value; });
+    const data = { g: g.id, leader: val("f_leader"), project: val("f_project"), domain: pick("domain"), kind: pick("kind"), roles,
+      why: val("f_why"), goals: val("f_goals"), audience: val("f_audience"), values: val("f_values"), steps: val("f_steps"), proto: val("f_proto"), img: planImg || "" };
+    const miss = [];
+    if (!data.leader) miss.push("اسم القائدة"); if (!data.project) miss.push("اسم المشروع"); if (!data.domain) miss.push("المجال"); if (!data.kind) miss.push("نوع المشروع");
+    if (!data.why) miss.push("سبب الاختيار"); if (!data.goals) miss.push("الأهداف"); if (!data.values) miss.push("القيم"); if (!data.steps) miss.push("خطوات العمل"); if (!data.proto) miss.push("النموذج الأولي");
+    const er = $("#f_err");
+    if (miss.length){ er.textContent = "باقي: " + miss.join("، "); er.hidden = false; return; }
+    er.hidden = true; const btn = $("#f_send"); btn.disabled = true; btn.textContent = "جارٍ الإرسال…";
+    try { await savePlan(data); formOpen = false; toast("تم إرسال الخطة ✓ شكرًا لكن 🌷"); location.hash = g.id; render(); }
+    catch(err){ er.textContent = errText(err); er.hidden = false; btn.disabled = false; btn.textContent = "إرسال الخطة"; }
+  });
+}
+function leaveForm(gid){ formOpen = false; location.hash = gid; render(); }
+function shrinkImage(file){
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file); const im = new Image();
+    im.onload = () => {
+      let max = 1100, q = .72, out = "";
+      for (let i = 0; i < 6; i++) {
+        const k = Math.min(1, max / Math.max(im.width, im.height));
+        const cv = document.createElement("canvas"); cv.width = Math.round(im.width*k); cv.height = Math.round(im.height*k);
+        const cx = cv.getContext("2d"); cx.fillStyle = "#fff"; cx.fillRect(0,0,cv.width,cv.height); cx.drawImage(im,0,0,cv.width,cv.height);
+        out = cv.toDataURL("image/jpeg", q);
+        if (out.length < 600000) break; max *= .8; q -= .07;
+      }
+      URL.revokeObjectURL(url); out.length < 700000 ? res(out) : rej(new Error("big"));
+    };
+    im.onerror = () => { URL.revokeObjectURL(url); rej(new Error("img")); };
+    im.src = url;
+  });
+}
+
+/* ---- تعهد القيم ---- */
+function pledgeForm(g, sid){
+  const nm = studentName(sid);
+  if (!nm || !g.m.some(([id]) => id === sid)) return `<button class="back" onclick="location.hash='${g.id}'">→ رجوع</button><p>الاسم غير موجود.</p>`;
+  if (state.pledges[sid]) return `<button class="back" onclick="location.hash='${g.id}'">→ رجوع</button><div class="okbox">${esc(nm)}، وقّعتِ على التعهد ✓ ${when(state.pledges[sid].at)}</div>`;
+  const p = latestPlan(g.id);
+  return `<button class="back" onclick="location.hash='${g.id}'">→ رجوع</button>
+  <div class="ghead"><span class="em" aria-hidden="true">${g.em}</span><div><h2>بطاقة تعهد القيم</h2><div class="hint">مجموعة ${g.name}</div></div></div>
+  <div class="card">
+    <p>أنا الطالبة <b>${esc(nm)}</b> من مجموعة ${g.name}${p ? `، المسؤولة مع زميلاتي عن مشروع <b>«${esc(p.project)}»</b>` : ""}، أتعهد بأن أتمثّل القيم في سلوكي وتعاملي مع من حولي:</p>
+    <ul class="pledge-list">${VALUES.map(([k,t]) => `<li><b>${k}:</b> ${t}</li>`).join("")}</ul>
+    <label class="check"><input type="checkbox" id="p_ok"> أتعهد بالالتزام بهذه القيم طوال المشروع.</label>
+    <div class="q"><span class="lb">وقّعي هنا بإصبعك ✍️</span><canvas class="sigbox" id="p_sig" aria-label="مكان التوقيع"></canvas>
+      <div class="row"><button class="btn light" type="button" id="p_clear">مسح التوقيع</button></div></div>
+    <p class="err" id="p_err" role="alert" hidden></p>
+    <button class="btn big" id="p_send" type="button">وقّعت ✓ إرسال</button>
+  </div>`;
+}
+function bindPledge(g, sid){
+  const cv = $("#p_sig"); if (!cv) return;
+  const ratio = Math.max(1, window.devicePixelRatio || 1);
+  const size = () => { const r = cv.getBoundingClientRect(); cv.width = r.width * ratio; cv.height = r.height * ratio; const x = cv.getContext("2d"); x.scale(ratio, ratio); x.lineWidth = 2.6; x.lineCap = "round"; x.lineJoin = "round"; x.strokeStyle = "#1d1b24"; };
+  size();
+  const ctx = cv.getContext("2d"); let drawing = false, inked = 0, last = null;
+  const pt = e => { const r = cv.getBoundingClientRect(); return {x: e.clientX - r.left, y: e.clientY - r.top}; };
+  cv.addEventListener("pointerdown", e => { drawing = true; last = pt(e); cv.setPointerCapture(e.pointerId); e.preventDefault(); });
+  cv.addEventListener("pointermove", e => { if (!drawing) return; const p = pt(e); ctx.beginPath(); ctx.moveTo(last.x,last.y); ctx.lineTo(p.x,p.y); ctx.stroke(); inked += Math.hypot(p.x-last.x, p.y-last.y); last = p; e.preventDefault(); });
+  const up = () => { drawing = false; }; cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
+  $("#p_clear").addEventListener("click", () => { ctx.clearRect(0,0,cv.width,cv.height); inked = 0; });
+  $("#p_send").addEventListener("click", async () => {
+    const er = $("#p_err");
+    if (!$("#p_ok").checked){ er.textContent = "ضعي علامة ✓ على «أتعهد» أولًا"; er.hidden = false; return; }
+    if (inked < 40){ er.textContent = "وقّعي في المربع أولًا"; er.hidden = false; return; }
+    er.hidden = true; const btn = $("#p_send"); btn.disabled = true; btn.textContent = "جارٍ الإرسال…";
+    const p = latestPlan(g.id);
+    const sig = trimSig(cv);
+    try { await savePledge(sid, { g: g.id, s: sid, name: studentName(sid), project: p ? p.project : "", sig }); toast("تم التوقيع ✓ بارك الله فيكِ 🌷"); location.hash = g.id; }
+    catch(err){ er.textContent = errText(err); er.hidden = false; btn.disabled = false; btn.textContent = "وقّعت ✓ إرسال"; }
+  });
+}
+function trimSig(cv){
+  const w = 420, h = Math.round(w * cv.height / cv.width);
+  const o = document.createElement("canvas"); o.width = w; o.height = h;
+  const x = o.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0,0,w,h); x.drawImage(cv,0,0,w,h);
+  return o.toDataURL("image/png");
+}
+
+/* ---- لوحة المعلمة ---- */
+function teacherView(){
+  const rows = GROUPS.map(g => {
+    const p = latestPlan(g.id); const signed = g.m.filter(([sid]) => state.pledges[sid]);
+    const missing = g.m.filter(([sid]) => !state.pledges[sid]).map(([,nm]) => nm);
+    return `<tr><td><b>${g.em} ${g.name}</b></td>
+      <td>${p ? `<span class="chip ok">✓</span> ${esc(p.project)}<div class="hint" style="font-size:.78rem">${when(p.at)}</div>` : `<span class="chip wait">لم تُرسل</span>`}</td>
+      <td>${p && p.img ? `<span class="chip ok">✓ صورة</span>` : (p ? `<span class="chip">وصف فقط</span>` : "—")}</td>
+      <td><span class="chip ${signed.length===g.m.length?"ok":"wait"}">${ar(signed.length)} من ${ar(g.m.length)}</span>${missing.length ? `<div class="hint" style="font-size:.78rem">باقي: ${esc(missing.join("، "))}</div>` : ""}</td>
+      <td><div class="row"><button class="btn light" onclick="location.hash='print/${g.id}'">طباعة</button></div></td></tr>`;
+  }).join("");
+  const plans = GROUPS.filter(g => latestPlan(g.id)).length, signs = Object.keys(state.pledges).length;
+  return `${header()}${statusBox()}
+  <div class="card"><h2 style="font-size:1.25rem">لوحة المعلمة</h2>
+    <p>أُرسلت خطط <b>${ar(plans)}</b> من ٥ مجموعات · وقّعت <b>${ar(signs)}</b> من ٣٠ طالبة. الصفحة تتحدّث تلقائيًا.</p>
+    <div class="row"><button class="btn big" onclick="location.hash='print/all'">طباعة كل الشواهد / حفظ PDF</button></div>
+    <p class="hint">من شاشة الطباعة اختاري «حفظ بصيغة PDF» لرفع الملف في مجلد الفصل.</p>
+  </div>
+  <div class="tbl"><table><thead><tr><th>المجموعة</th><th>الخطة</th><th>النموذج الأولي</th><th>التعهد</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+  <p class="foot">رابط الطالبات هو نفس الرابط بدون <span dir="ltr">#teacher</span></p>`;
+}
+function bindTeacher(){}
+
+/* ---- أوراق الطباعة ---- */
+function sheetHead(title, g){
+  return `<div class="hd"><div class="hc"><span class="s1">${SCHOOL}</span><span>مشروع ترسيخ القيم وتعزيز الهوية الوطنية</span><span>مبادرة قيمنا حياة • الصف الثاني الثانوي • فصل ٧</span></div><img src="logo.png" alt=""></div>
+  <h2>${title}</h2>
+  <div class="meta"><span><b>المجموعة:</b> ${g.name} (${g.n})</span><span><b>المعلمة:</b> ${TEACHER}</span></div>`;
+}
+function sheetFoot(){ return `<div class="sign"><div class="bar"><span>توقيع المعلمة: ${TEACHER} ..........................</span></div><div class="bar"><span>${COORD}</span><span>${PRINCIPAL}</span></div></div>`; }
+function planSheet(g){
+  const p = latestPlan(g.id);
+  if (!p) return `<section class="sheet">${sheetHead("خطة عمل المشروع والنموذج الأولي", g)}<p>لم ترسل المجموعة خطتها بعد.</p>${sheetFoot()}</section>`;
+  const roleRows = g.m.map(([sid,nm],i) => `<tr><td style="width:8%;text-align:center">${ar(i+1)}</td><td>${esc(nm)}</td><td>${esc((p.roles||{})[sid]||"")}</td></tr>`).join("");
+  const r = (k, t) => `<tr><th class="side">${k}</th><td class="pre">${esc(t)}</td></tr>`;
+  return `<section class="sheet">${sheetHead("خطة عمل المشروع والنموذج الأولي", g)}
+    <div class="stamp">أُرسلت إلكترونيًا بتاريخ ${when(p.at)} · القائدة: ${esc(p.leader)}</div>
+    <table><tbody>${r("اسم المشروع", p.project)}${r("المجال الرئيس", p.domain)}${r("نوع المخرج", p.kind)}${p.audience?r("الجمهور المستهدف", p.audience):""}</tbody></table>
+    <table><thead><tr><th>م</th><th>اسم الطالبة</th><th>الدور في المجموعة</th></tr></thead><tbody>${roleRows}</tbody></table>
+    <table><tbody>${r("سبب الاختيار والأهمية", p.why)}${r("أهداف المشروع", p.goals)}${r("ظهور القيم في العمل", p.values)}${r("خطوات العمل", p.steps)}${r("النموذج الأولي", p.proto)}</tbody></table>
+    ${p.img ? `<img class="proto" src="${p.img}" alt="صورة النموذج الأولي">` : ""}
+    ${sheetFoot()}</section>`;
+}
+function pledgeSheet(g){
+  const p = latestPlan(g.id);
+  const rows = g.m.map(([sid,nm],i) => { const s = state.pledges[sid];
+    return `<tr><td style="width:7%;text-align:center">${ar(i+1)}</td><td>${esc(nm)}</td><td style="text-align:center">${s && s.sig ? `<img class="sig" src="${s.sig}" alt="توقيع">` : ""}</td><td style="font-size:10.5pt">${s ? when(s.at) : "لم توقّع"}</td></tr>`; }).join("");
+  return `<section class="sheet">${sheetHead("بطاقة تعهد القيم", g)}
+    <div class="meta"><span><b>اسم المشروع:</b> ${esc(p ? p.project : "..........................................")}</span></div>
+    <p>نتعهد نحن عضوات المجموعة المسؤولة عن تنفيذ المشروع المذكور أعلاه بتمثّل القيم في سلوكنا وتعاملنا مع من حولنا، والالتزام بما يأتي:</p>
+    <table><thead><tr><th style="width:18%">القيمة</th><th>تعهدنا</th></tr></thead><tbody>
+      <tr><td>التعاون</td><td>نتعاون مع زميلاتنا، ونساعد بعضنا، ونسعى معًا لتحقيق الأهداف المشتركة للمشروع.</td></tr>
+      <tr><td>الأمانة</td><td>نتحلى بالأمانة في أقوالنا وأفعالنا، وننجز المهام بإتقان، ونوثّق المصادر، ونتجنب الغش والنسخ والانتحال.</td></tr>
+      <tr><td>العزيمة</td><td>نجتهد في إنجاز المهام، ونواصل العمل رغم التحديات، ونحرص على التقدم وفق الخطة الزمنية دون تقاعس.</td></tr>
+      <tr><td>الانضباط</td><td>نلتزم بالأنظمة والتعليمات، ونحافظ على النظام، ونحضر الاجتماعات ونسلّم المهام في مواعيدها.</td></tr>
+    </tbody></table>
+    <b>أسماء عضوات المجموعة وتوقيعاتهن (موقّعة إلكترونيًا)</b>
+    <table><thead><tr><th>م</th><th>اسم الطالبة</th><th>التوقيع</th><th>وقت التوقيع</th></tr></thead><tbody>${rows}</tbody></table>
+    ${sheetFoot()}</section>`;
+}
+function showPrint(which){
+  const list = which === "all" ? GROUPS : [G(which)].filter(Boolean);
+  const pr = $("#print");
+  pr.innerHTML = list.map(g => planSheet(g) + pledgeSheet(g)).join("");
+  pr.style.display = "block";
+  $("#app").innerHTML = `<div class="printbar"><button class="btn" onclick="window.print()">🖨️ طباعة / حفظ PDF</button><button class="btn light" onclick="location.hash='teacher'">رجوع للوحة</button><span style="font-size:.85rem">اختاري «حفظ بصيغة PDF» من نافذة الطباعة</span></div>`;
+  $("#app").classList.remove("wrap");
+}
+function hidePrint(){ const pr = $("#print"); pr.style.display = "none"; pr.innerHTML = ""; $("#app").classList.add("wrap"); }
+
+/* ============ تشغيل ============ */
+render();
+startData();
+</script>
+</body>
+</html>
